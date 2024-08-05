@@ -41,10 +41,4 @@ public class ProjetoRestController {
         return projetoRepository.findAll();
     }
 
-    @DeleteMapping("/deletar")
-    public void deletarProjeto(@RequestParam int id) {
-        projetoRepository.deleteById((long) id);
-        logger.info("[INFO] Projeto deletado com sucesso!");
-    }
-
 }

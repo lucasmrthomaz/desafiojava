@@ -18,7 +18,7 @@
           crossorigin="anonymous" referrerpolicy="no-referrer"/>
 
     <style>
-        h1,h2,h3{
+        h1, h2, h3 {
             margin-top: 2rem;
         }
     </style>
@@ -38,7 +38,7 @@
                     <a class="nav-link active" aria-current="page" href="/">Home</a>
                 </li>
                 <li>
-                    <a class="nav-link" aria-current="page" href="/novo">Novo projeto</a>
+                    <a class="nav-link" aria-current="page" href="/projeto/novo">Novo projeto</a>
                 </li>
             </ul>
         </div>
@@ -50,7 +50,7 @@
     <button class="fa fa-left-long btn btn-primary" onclick="window.history.back()"> Voltar</button>
 
     <div>
-        <h3> Novo projeto </h3>
+        <h3> Editar projeto </h3>
         <form id="project-form">
             <label for="nome-projeto">Nome Projeto</label>
             <input class="form-control" id="nome-projeto" type="text" placeholder="Nome projeto" required/> <br>
@@ -80,7 +80,7 @@
                 <option value="Em análise">Em análise</option>
                 <option value="Análise realizada">Análise realizada</option>
                 <option value="Análise aprovad">Análise aprovada</option>
-                <option value="" disabled> ---- </option>
+                <option value="" disabled> ----</option>
                 <option value="Iniciado">Iniciado</option>
                 <option value="Planejado">Planejado</option>
                 <option value="Em andamento">Em andamento</option>
@@ -95,7 +95,7 @@
                 <option value="Médio">Médio</option>
                 <option value="Alto">Alto</option>
             </select> <br>
-            <button type="submit" class="btn btn-primary btn-lg" style="width: 100%; margin-top: 15px;">Cadastrar
+            <button type="submit" class="btn btn-primary btn-lg" style="width: 100%; margin-top: 15px;">Alterar projeto
             </button>
         </form>
     </div>
@@ -108,9 +108,39 @@
     document.addEventListener('DOMContentLoaded', function () {
         const form = document.getElementById('project-form');
 
+        window.addEventListener('load', function (event) {
+            const searchParams = new URLSearchParams(window.location.search);
+            fetch('http://localhost:8080/projeto/editar-frm?id=' + searchParams.get('id'), {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Success:', data);
+
+                    document.getElementById('nome-projeto').value = data.nome;
+                    document.getElementById('descricao-projeto').value = data.descricao;
+                    document.getElementById('nome-gerente').value = data.nomeGerente;
+                    document.getElementById('data-inicio').value = data.dataInicio.split('T')[0];
+                    document.getElementById('previsao-termino').value = data.dataPrevisaoFim.split('T')[0];
+
+                    document.getElementById('data-real-termino').value = data.dataFim.split('T')[0];
+
+                    document.getElementById('orcamento-projeto').value = data.orcamento;
+                    document.getElementById('status-projeto').value = data.status;
+                    document.getElementById('risco-projeto').value = data.risco;
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                    alert('Erro ao carregar os dados do projeto.');
+                });
+        });
+
         form.addEventListener('submit', function (event) {
             event.preventDefault(); // Evita o envio padrão do formulário
-
+            const searchParams = new URLSearchParams(window.location.search);
             const projectData = {
                 nome: document.getElementById('nome-projeto').value,
                 descricao: document.getElementById('descricao-projeto').value,
@@ -123,8 +153,8 @@
                 risco: document.getElementById('risco-projeto').value
             };
 
-            fetch('http://localhost:8080/projeto/add', {
-                method: 'POST',
+            fetch('http://localhost:8080/projeto/editar-frm?id=' + searchParams.get('id'), {
+                method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
                 },

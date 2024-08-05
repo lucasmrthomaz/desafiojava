@@ -13,6 +13,10 @@
     <link href="<c:url value="/static/node_modules/bootstrap/dist/css/bootstrap.min.css"/>"
           rel="stylesheet">
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+          integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
+
     <style>
         h1,h2,h3{
             margin-top: 2rem;
@@ -55,11 +59,11 @@
             <tr>
                 <th scope="col">ID</th>
                 <th scope="col">Nome</th>
-                <th scope="col">Descricao</th>
-                <th scope="col">Data Inicio</th>
-                <th scope="col">Data Prev. Fim</th>
+                <th scope="col">Descrição</th>
+                <th scope="col">Inicio</th>
+                <th scope="col">Previsão Fim</th>
                 <th scope="col">Data Fim</th>
-                <th scope="col">Orcamento</th>
+                <th scope="col">Orçamento</th>
                 <th scope="col">Risco</th>
                 <th scope="col">Gerente</th>
                 <th scope="col">Status</th>
@@ -77,9 +81,21 @@
 </body>
 
 <script>
+    // URL do endpoint da API
+    const apiUrl = 'http://localhost:8080/projeto/listar';
+    const searchParams = new URLSearchParams(window.location.search);
+    let currentId = {};
+
+    function deletar(id) {
+        window.location.href = "/projeto/deletar?id=" + currentId;
+    }
+
+    function editar(id) {
+        window.location.href = "projeto/editar?id=" + currentId;
+    }
+
     document.addEventListener('DOMContentLoaded', function () {
-        // URL do endpoint da API
-        const apiUrl = 'http://localhost:8080/projeto/listar';
+
 
         // Referência ao corpo da tabela
         const tableBody = document.getElementById('table-body');
@@ -87,6 +103,9 @@
         // Função para preencher a tabela
         function fillTable(data) {
             data.forEach(projeto => {
+                currentId = projeto.id;
+
+
                 // Cria uma nova linha
                 const row = document.createElement('tr');
 
@@ -104,19 +123,25 @@
                 row.appendChild(descricaoCell);
 
                 const dataInicioCell = document.createElement('td');
+                const dataIniFmt = new Date(projeto.dataInicio);
                 dataInicioCell.textContent = projeto.dataInicio;
+                dataInicioCell.innerHTML = dataIniFmt.toLocaleDateString('pt-BR');
                 row.appendChild(dataInicioCell);
 
                 const dataPrevFimCell = document.createElement('td');
+                const dataPrevFim = new Date(projeto.dataPrevisaoFim);
                 dataPrevFimCell.textContent = projeto.dataPrevisaoFim;
+                dataPrevFimCell.innerHTML = dataPrevFim.toLocaleDateString('pt-BR');
                 row.appendChild(dataPrevFimCell);
 
                 const dataFimCell = document.createElement('td');
+                const dataFim = new Date(projeto.dataFim);
                 dataFimCell.textContent = projeto.dataFim;
+                dataFimCell.innerHTML = dataFim.toLocaleDateString('pt-BR');
                 row.appendChild(dataFimCell);
 
                 const orcamentoCell = document.createElement('td');
-                orcamentoCell.textContent = projeto.orcamento;
+                orcamentoCell.textContent = "R$ " + projeto.orcamento;
                 row.appendChild(orcamentoCell);
 
                 const riscoCell = document.createElement('td');
@@ -132,7 +157,7 @@
                 row.appendChild(statusCell);
 
                 const acaoCell = document.createElement('td');
-                acaoCell.textContent = "Excl. / Edit.";
+                acaoCell.innerHTML = "<p class='fa fa-pen-alt' role='button' onclick='editar(currentId.id)' '></p>  <p class='fa fa-trash' role='button' onclick=deletar(currentId.id)></p>"
                 row.appendChild(acaoCell);
 
                 // Adiciona a linha ao corpo da tabela
