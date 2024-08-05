@@ -1,5 +1,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="label" uri="http://www.springframework.org/tags/form" %>
 <!DOCTYPE html>
 <html lang="pt_br">
 <head>
@@ -15,6 +16,10 @@
     <style>
         h1,h2,h3{
             margin-top: 2rem;
+        }
+
+        .containerIndexVisaoGeral {
+            padding: 1rem;
         }
     </style>
 
@@ -33,14 +38,14 @@
                     <a class="nav-link active" aria-current="page" href="/">Home</a>
                 </li>
                 <li>
-                    <a class="nav-link" aria-current="page" href="/novo">Novo projeto</a>
+                    <a class="nav-link" aria-current="page" href="/projeto/novo">Novo projeto</a>
                 </li>
             </ul>
         </div>
     </div>
 </nav>
 
-<div class="container">
+<div class="containerIndexVisaoGeral" style="margin: 3rem;">
     <h1> Gestão de Projetos </h1>
 
     <div id="form-project">
@@ -61,20 +66,8 @@
                 <th scope="col">Ação</th>
             </tr>
             </thead>
-            <tbody>
-            <tr>
-                <th scope="row">1</th>
-                <td>NomeProj</td>
-                <td>Descr</td>
-                <td>DtIni</td>
-                <td>DtPrev</td>
-                <td>DtFim</td>
-                <td>Orc</td>
-                <td>Risco</td>
-                <td>Ger</td>
-                <td>Sts</td>
-                <td>Editar/Excluir</td>
-            </tr>
+            <tbody id="table-body">
+
             </tbody>
         </table>
     </div>
@@ -82,6 +75,79 @@
 </div>
 
 </body>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // URL do endpoint da API
+        const apiUrl = 'http://localhost:8080/projeto/listar';
+
+        // Referência ao corpo da tabela
+        const tableBody = document.getElementById('table-body');
+
+        // Função para preencher a tabela
+        function fillTable(data) {
+            data.forEach(projeto => {
+                // Cria uma nova linha
+                const row = document.createElement('tr');
+
+                // Cria e preenche as células da linha
+                const idCell = document.createElement('td');
+                idCell.textContent = projeto.id;
+                row.appendChild(idCell);
+
+                const nameCell = document.createElement('td');
+                nameCell.textContent = projeto.nome;
+                row.appendChild(nameCell);
+
+                const descricaoCell = document.createElement('td');
+                descricaoCell.textContent = projeto.descricao;
+                row.appendChild(descricaoCell);
+
+                const dataInicioCell = document.createElement('td');
+                dataInicioCell.textContent = projeto.dataInicio;
+                row.appendChild(dataInicioCell);
+
+                const dataPrevFimCell = document.createElement('td');
+                dataPrevFimCell.textContent = projeto.dataPrevisaoFim;
+                row.appendChild(dataPrevFimCell);
+
+                const dataFimCell = document.createElement('td');
+                dataFimCell.textContent = projeto.dataFim;
+                row.appendChild(dataFimCell);
+
+                const orcamentoCell = document.createElement('td');
+                orcamentoCell.textContent = projeto.orcamento;
+                row.appendChild(orcamentoCell);
+
+                const riscoCell = document.createElement('td');
+                riscoCell.textContent = projeto.risco;
+                row.appendChild(riscoCell);
+
+                const gerenteCell = document.createElement('td');
+                gerenteCell.textContent = projeto.nomeGerente;
+                row.appendChild(gerenteCell);
+
+                const statusCell = document.createElement('td');
+                statusCell.textContent = projeto.status;
+                row.appendChild(statusCell);
+
+                const acaoCell = document.createElement('td');
+                acaoCell.textContent = "Excl. / Edit.";
+                row.appendChild(acaoCell);
+
+                // Adiciona a linha ao corpo da tabela
+                tableBody.appendChild(row);
+            });
+        }
+
+        // Faz a chamada fetch para obter os dados
+        fetch(apiUrl)
+            .then(response => response.json())
+            .then(data => fillTable(data))
+            .catch(error => console.error('Erro ao buscar dados:', error));
+    });
+
+</script>
 
 <script src="<c:url value="/static/node_modules/bootstrap/dist/js/bootstrap.min.js"/>"></script>
 </html>
