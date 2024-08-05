@@ -18,7 +18,7 @@
           crossorigin="anonymous" referrerpolicy="no-referrer"/>
 
     <style>
-        h1,h2,h3{
+        h1, h2, h3 {
             margin-top: 2rem;
         }
     </style>
@@ -80,7 +80,7 @@
                 <option value="Em análise">Em análise</option>
                 <option value="Análise realizada">Análise realizada</option>
                 <option value="Análise aprovad">Análise aprovada</option>
-                <option value="" disabled> ---- </option>
+                <option value="" disabled> ----</option>
                 <option value="Iniciado">Iniciado</option>
                 <option value="Planejado">Planejado</option>
                 <option value="Em andamento">Em andamento</option>
@@ -138,7 +138,6 @@
                 })
                 .catch((error) => {
                     console.error('Error:', error);
-                    //alert('Erro ao salvar o projeto.');
                 });
         });
 

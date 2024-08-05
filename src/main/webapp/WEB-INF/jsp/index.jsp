@@ -18,7 +18,7 @@
           crossorigin="anonymous" referrerpolicy="no-referrer"/>
 
     <style>
-        h1,h2,h3{
+        h1, h2, h3 {
             margin-top: 2rem;
         }
 
@@ -53,7 +53,7 @@
     <h1> Gestão de Projetos </h1>
 
     <div id="form-project">
-    <h3> Visão geral dos projetos </h3>
+        <h3> Visão geral dos projetos </h3>
         <table class="table">
             <thead>
             <tr>
