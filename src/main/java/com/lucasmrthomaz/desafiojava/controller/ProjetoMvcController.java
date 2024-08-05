@@ -28,7 +28,6 @@ public class ProjetoMvcController {
         return "novo";
     }
 
-
     @GetMapping("/editar-frm")
     public ResponseEntity<Projeto> editar(@RequestParam(value = "id") int id) {
         return ResponseEntity.ok(projetoRepository.findById((long) id).orElse(null));
@@ -49,15 +48,6 @@ public class ProjetoMvcController {
     @GetMapping("/editar")
     public String editar() {
         return "editar";
-    }
-
-    @GetMapping("/listar")
-    public ResponseEntity<Projeto> getProjetoById(@RequestParam(value = "id") int id) {
-        Projeto projeto = projetoRepository.findById((long) id).orElse(null);
-        if (projeto != null) {
-            return ResponseEntity.ok(projeto);
-        }
-        return ResponseEntity.notFound().build();
     }
 
     @RequestMapping("/deletar")

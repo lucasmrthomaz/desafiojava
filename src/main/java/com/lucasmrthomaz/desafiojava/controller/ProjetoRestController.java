@@ -7,20 +7,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.logging.Logger;
 
-/**
- * ! Important
- * - O sistema deve permitir o cadastro (inserção, exclusão, alteração e consulta) de
- * projetos. Para cada projeto devem ser informados: nome, data de início, gerente
- * responsável, previsão de término, data real de término, orçamento total, descrição e status.
- * - Os projetos devem ser classificados em: baixo risco, médio risco e alto risco. A
- * classificação de risco não é cadastrada no sistema, deve ser disponibilizada num
- * componente select.
- * - A cada instante, o projeto deve estar em um status específico e único. Os status
- * possíveis não são cadastrados no sistema e são: em análise, análise realizada,
- * análise aprovada, iniciado, planejado, em andamento, encerrado, cancelado.
- * - Se um projeto foi mudado o status para iniciado, em andamento ou encerrado
- * não pode mais ser excluído.
- */
 @RestController
 @RequestMapping("/projeto")
 public class ProjetoRestController {

@@ -133,13 +133,12 @@
                 .then(response => response.json())
                 .then(data => {
                     console.log('Success:', data);
-                    alert('Projeto salvo com sucesso!');
-                    form.reset(); // Limpa o formulário
+                    form.reset();
                     window.history.back();
                 })
                 .catch((error) => {
                     console.error('Error:', error);
-                    alert('Erro ao salvar o projeto.');
+                    //alert('Erro ao salvar o projeto.');
                 });
         });
 

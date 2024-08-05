@@ -125,9 +125,7 @@
                     document.getElementById('nome-gerente').value = data.nomeGerente;
                     document.getElementById('data-inicio').value = data.dataInicio.split('T')[0];
                     document.getElementById('previsao-termino').value = data.dataPrevisaoFim.split('T')[0];
-
                     document.getElementById('data-real-termino').value = data.dataFim.split('T')[0];
-
                     document.getElementById('orcamento-projeto').value = data.orcamento;
                     document.getElementById('status-projeto').value = data.status;
                     document.getElementById('risco-projeto').value = data.risco;
@@ -139,8 +137,9 @@
         });
 
         form.addEventListener('submit', function (event) {
-            event.preventDefault(); // Evita o envio padrão do formulário
+            event.preventDefault();
             const searchParams = new URLSearchParams(window.location.search);
+
             const projectData = {
                 nome: document.getElementById('nome-projeto').value,
                 descricao: document.getElementById('descricao-projeto').value,
